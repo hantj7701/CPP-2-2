@@ -1,4 +1,4 @@
-낭나난낭
+상속의 기본 구조와 부모의 멤버를 활용하는 방식에 대한 실습
 
     #include <iostream>
     using namespace std;
