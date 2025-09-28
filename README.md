@@ -1,4 +1,4 @@
-상속의 기본 구조와 부모의 멤버를 활용하는 방식에 대한 실습
+* 상속의 기본 구조와 부모의 멤버 상속의 기본 구조와 부모의 멤버
 
     #include <iostream>
     using namespace std;
@@ -84,3 +84,76 @@
     
         return 0;
     }
+
+
+* 코드의 오류 위치를 통해, 상속 시 각각의 접근 지정자에 대한 차이를 실습
+
+    #include <iostream>
+    using namespace std;
+    
+    class Base {
+    private:
+        int a = 1;
+    public:
+        int b = 2;
+    protected:
+        int c = 3;
+    };
+    
+    class Derived1 : public Base {
+    public:
+        void show() {
+            cout << "public" << endl;
+            cout << a << endl;   // 접근 불가 (private)
+            cout << b << endl;       // public 멤버 접근 가능
+            cout << c << endl;       // protected 멤버 접근 가능
+        }
+    };
+    
+    class Derived2 : private Base {
+    public:
+        void show() {
+            cout << "private" << endl;
+            cout << a << endl;   // 접근 불가 (private)
+            cout << b << endl;       // private 상속 → b도 private가 됨
+            cout << c << endl;       // private 상속 → c도 private가 됨
+        }
+    };
+    
+    class Derived3 : protected Base {
+    public:
+        void show() {
+            cout << "protected" << endl;
+            cout << a << endl;   // 접근 불가 (private)
+            cout << b << endl;       // protected 상속 → b는 protected
+            cout << c << endl;       // protected 상속 → c는 protected
+        }
+    };
+    
+    int main() {
+        Derived1 obj1;
+        Derived2 obj2;
+        Derived3 obj3;
+    
+        obj1.show();
+        obj2.show();
+        obj3.show();
+    
+        main 함수에서 직접 접근 시도
+        cout << obj1.a << endl;   // 접근 불가 (private)
+        cout << obj1.b << endl;   // public 상속이라 접근 가능
+        cout << obj1.c << endl;   // protected라 접근 불가
+    
+        cout << obj2.a << endl;   // 접근 불가
+        cout << obj2.b << endl;   // private 상속이라 접근 불가
+        cout << obj2.c << endl;   // private 상속이라 접근 불가
+    
+        cout << obj3.a << endl;   // 접근 불가
+        cout << obj3.b << endl;   // protected 상속이라 접근 불가
+        cout << obj3.c << endl;   // protected 상속이라 접근 불가
+    
+        return 0;
+    }
+
+
+  * 
