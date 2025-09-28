@@ -156,4 +156,208 @@
             }
 
 
-  * 
+* 부모와 자식의 동일한 이름의 함수는 어떻게 동작하는지에 대한 학습 (객체 슬라이싱)
+
+                #include <iostream>
+                using namespace std;
+                
+                class Animal {
+                public:
+                    void speak() {
+                        cout << "동물이 소리를 냅니다." << endl;
+                    }
+                };
+                
+                class Dog : public Animal {
+                public:
+                    void speak() {
+                        cout << "멍멍!" << endl;
+                    }
+                };
+                
+                class Cat : public Animal {
+                public:
+                    void speak() {
+                        cout << "야옹!" << endl;
+                    }
+                };
+                
+                int main() {
+                    Animal a1;
+                    Dog a2;
+                    Cat a3;
+                
+                    a1.speak();
+                    a2.speak();
+                    a3.speak();
+                
+                    Animal a;
+                    a = a2;
+                    a.speak();
+                    a = a3;
+                    a.speak();
+                
+                    return 0;
+                }
+
+
+* 추가 - 가상함수와 함수 재정의 (동적 다형성 : 오버라이딩)
+
+                #include <iostream>
+                using namespace std;
+                
+                class Animal {
+                public:
+                    // 부모 클래스의 speak를 가상 함수로 선언
+                    virtual void speak() {
+                        cout << "동물이 소리를 냅니다." << endl;
+                    }
+                };
+                
+                class Dog : public Animal {
+                public:
+                    // 부모의 virtual 함수를 override 키워드를 사용해서 재정의
+                    void speak() override {
+                        cout << "멍멍!" << endl;
+                    }
+                };
+                
+                class Cat : public Animal {
+                public:
+                    void speak() override {
+                        cout << "야옹!" << endl;
+                    }
+                };
+                
+                int main() {
+                    Animal a1;
+                    Dog a2;
+                    Cat a3;
+                
+                    a1.speak();
+                    a2.speak();
+                    a3.speak();
+                
+                    Animal* p;
+                    p = &a2;
+                    p->speak();
+                
+                    p = &a3;
+                    p->speak();
+                
+                    Animal& r1 = a2;
+                    Animal& r2 = a3;
+                
+                    r1.speak();
+                    r2.speak();
+                
+                    return 0;
+                }
+
+
+* 상속과 생성자, 소멸자의 관계 - 기본적인 순서
+ 
+                #include <iostream>
+                using namespace std;
+                
+                class Parent {
+                public:
+                    Parent() {
+                        cout << "부모 생성자 호출" << endl;
+                    }
+                    ~Parent() {
+                        cout << "부모 소멸자 호출" << endl;
+                    }
+                };
+                
+                class Child : public Parent {
+                public:
+                    Child() {
+                        cout << "자식 생성자 호출" << endl;
+                    }
+                    ~Child() {
+                        cout << "자식 소멸자 호출" << endl;
+                    }
+                };
+                
+                int main() {
+                    Child c;
+                    return 0;
+                }
+
+* 상속과 생성자, 소멸자의 관계 - 부모 클래스 생성자에 파라미터가 있다면?
+
+                #include <iostream>
+                using namespace std;
+                
+                class Parent {
+                public:
+                    Parent(int x) {
+                        cout << "부모 생성자 호출, 값 = " << x << endl;
+                    }
+                };
+                
+                class Child : public Parent {
+                public:
+                    // 자식 생성자에서 부모 생성자 직접 호출
+                    Child(int y) : Parent(y) {
+                        cout << "자식 생성자 호출" << endl;
+                    }
+                };
+                
+                int main() {
+                    Child c(10);
+                    return 0;
+                }
+
+
+* 다중 상속
+
+                #include <iostream>
+                using namespace std;
+                
+                class Engine {
+                public:
+                    void start() {
+                        cout << "엔진 시동 걸림" << endl;
+                    }
+                };
+                
+                class Radio {
+                public:
+                    void playMusic() {
+                        cout << "라디오 음악 재생" << endl;
+                    }
+                };
+                
+                // Car는 Engine과 Radio를 동시에 상속받음
+                class Car : public Engine, public Radio {
+                };
+                
+                int main() {
+                    Car myCar;
+                    myCar.start();      // Engine에서 물려받음
+                    myCar.playMusic();  // Radio에서 물려받음
+                
+                    return 0;
+                }
+
+
+* 다형성 - 정적 다형성
+
+                #include <iostream>
+                using namespace std;
+                
+                void print(int x) {
+                    cout << "정수 출력: " << x << endl;
+                }
+                
+                void print(string s) {
+                    cout << "문자열 출력: " << s << endl;
+                }
+                
+                int main() {
+                    print(10);        // 컴파일 시점에 int 버전 선택
+                    print("Hello");   // 컴파일 시점에 string 버전 선택
+                    return 0;
+                }
