@@ -1,4 +1,4 @@
-* 서버 스크립트
+서버 스크립트
     // server.cpp : 간단한 TCP 파일 전송 서버
     // 빌드: cl /EHsc server.cpp ws2_32.lib
     
@@ -108,7 +108,9 @@
     
         return 0;
     }
-* 클라이언트 스크립트
+
+    
+클라이언트 스크립트
     // client.cpp : 간단한 TCP 파일 수신 클라이언트
     // 빌드: cl /EHsc client.cpp ws2_32.lib
     
